@@ -80,7 +80,7 @@ export const updateBookingStatus = async (req, res) => {
   try {
     const { bookingId } = req.params;
     const { status } = req.body;
-    const booking = await Booking.findOne(bookingId);
+    const booking = await Booking.findById(bookingId);
     if (!booking) {
       return res
         .status(404)
