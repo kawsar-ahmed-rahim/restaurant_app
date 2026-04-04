@@ -12,11 +12,13 @@ import MyOrders from './Pages/MyOrders';
 import Signup from './Pages/Signup';
 import Cart from './Pages/Cart';
 import Navbar from "./components/Navbar";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const location = useLocation();
   const adminPath = location.pathname.includes("admin");
   return <div>
+    <Toaster />
           {!adminPath && <Navbar/>}
 
     <Routes>
@@ -31,7 +33,7 @@ const App = () => {
       <Route path="/my-bookings" element={<MyBookings/>}/>
        <Route path="/my-orders" element={<MyOrders/>}/>
         <Route path="/login" element={<Login/>}/>
-         <Route path="/my-signup" element={<Signup/>}/>
+         <Route path="/signup" element={<Signup/>}/>
 
     </Routes>
   </div>;
