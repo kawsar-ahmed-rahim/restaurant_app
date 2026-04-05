@@ -1,6 +1,6 @@
 import express from "express";
 
-import { adminOnly, protect } from "../middleware/authMiddleware.js";
+import { adminOnly, protect } from "../middlewares/authMiddleware.js";
 import {
   getUserOrders,
   placeOrder,
@@ -12,7 +12,7 @@ const orderRoutes = express.Router();
 
 orderRoutes.post("/place", protect, placeOrder);
 orderRoutes.get("/my-orders", protect, getUserOrders);
-orderRoutes.get("/orders", adminOnly, getAllOrders);
-orderRoutes.put("/update-status/:orderId", adminOnly, updateOrderStatus);
+orderRoutes.get("/orders",protect, adminOnly, getAllOrders);
+orderRoutes.put("/update-status/:orderId",protect, adminOnly, updateOrderStatus);
 
 export default orderRoutes;

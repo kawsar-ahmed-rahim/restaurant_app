@@ -1,19 +1,33 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import {User2Icon,LockIcon,MailIcon} from "lucide-react";
-import {toast} from "react-hot-toast";
-
+import { User2Icon, LockIcon, MailIcon } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { AppContext } from "../context/AppContext";
 const Login = () => {
+  const { navigate, axios, loading, setLoading, setUser } =
+    useContext(AppContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    toast.success("Login successfully!");
-    console.log(formData);
-    
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/auth/login", formData);
+      if (data.success) {
+        setUser(data.user);
+        toast.success(data.message);
+        navigate("/");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message || "Something went wrong!");
+    } finally {
+      setLoading(true);
+    }
   };
 
   const handleChange = (e) => {
@@ -31,10 +45,9 @@ const Login = () => {
 
         <p className="text-gray-400 text-sm mt-2">Please Login to continue</p>
 
-
         <div className="flex items-center w-full mt-4 bg-gray-800 border border-gray-700 h-12 rounded-full overflow-hidden pl-6 gap-2 ">
-           {/* mail icon */}
-           <MailIcon className="text-white"/>
+          {/* mail icon */}
+          <MailIcon className="text-white" />
           <input
             type="email"
             name="email"
@@ -47,8 +60,8 @@ const Login = () => {
         </div>
 
         <div className=" flex items-center mt-4 w-full bg-gray-800 border border-gray-700 h-12 rounded-full overflow-hidden pl-6 gap-2 ">
-           {/* lock icon */}
-           <LockIcon className="text-white"/>
+          {/* lock icon */}
+          <LockIcon className="text-white" />
           <input
             type="password"
             name="password"
@@ -64,7 +77,7 @@ const Login = () => {
           type="submit"
           className="mt-6 w-full h-11 rounded-full text-white bg-orange-600 hover:bg-indigo-500 transition-opacity cursor-pointer"
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-3 mb-11">

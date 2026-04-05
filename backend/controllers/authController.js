@@ -128,3 +128,14 @@ export const getProfile = async (req, res) => {
     return res.json({ message: "Internal server error", success: false });
   }
 };
+
+export const isAuth= async (req, res) => {
+  try {
+    const {id} = req.user;
+    const user = await User.findById(req.user.id).select("-password");
+    
+    return res.json({ message: "User is authenticated", success: true, user });
+  } catch (error) { 
+    return res.json({ message: "Internal server error", success: false });
+  }
+};

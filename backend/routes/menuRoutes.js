@@ -8,6 +8,7 @@ import {
   getAllMenuItem,
   updateMenuItem,
 } from "./../controllers/menuController.js";
+const menuRoutes = express.Router();
 
 menuRoutes.post("/add", adminOnly, upload.single("image"), addMenuItem);
 menuRoutes.get("/all", getAllMenuItem);

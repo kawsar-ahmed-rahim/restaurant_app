@@ -13,6 +13,7 @@ import Signup from './Pages/Signup';
 import Cart from './Pages/Cart';
 import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
+import { AppContext } from "./context/AppContext";
 
 const App = () => {
   const location = useLocation();
