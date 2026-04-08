@@ -111,6 +111,35 @@ const logout=async()=>{
             )
           })}
         </nav>
+
+        {/* footer */}
+        <div className="p-4 border-t border-gray-200">
+          <div className="flex items-center text-sm text-gray-500">
+            <div className="w-8 h-8 bg-gray-300 rounded-full mr-3"></div>
+            <div>
+              <div className="font-medium text-gray-900">Admin User</div>
+              <div>admin@example.com</div>
+            </div>
+          </div>
+        </div>
+
+        {/* mobile overlay */}
+
+        {sidebarOpen && <div onClick={()=> setSidebarOpen(false)} className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"></div>}
+
+        {/* main content */}
+        <div className="flex-1 flex flex-col overflow-hidden lg:ml-0">
+
+          {/* top bar */}
+          <header className="bg-whi shadow-sm border-b border-gray-200 lg:pl-0 pl-16">
+            <div className="flex items-center justify-between px-6 py-4">
+              <h2 className="text-2xl font-semibold text-gray-800">
+{menuItems.find((item)=>isActive(item.path,item.exact))?. item.name || "Admin panel"}
+              </h2>
+              <div></div>
+            </div>
+          </header>
+        </div>
     </div>
   </div>
   </div>
