@@ -20,7 +20,7 @@ import AdminLogin from "./Pages/admin/AdminLogin";
 import AdminLayout from "./Pages/admin/AdminLayout";
 import Dashboard from "./Pages/admin/Dashboard";
 import AddCategory from "./Pages/admin/AddCategory";
-import AddMenu from "./../../backend/controllers/menuController";
+import AddMenu from "./Pages/admin/AddMenu";
 import Categories from "./Pages/admin/Categories";
 import Orders from "./Pages/admin/Orders";
 import Bookings from "./Pages/admin/Bookings";

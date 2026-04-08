@@ -17,7 +17,8 @@ const AdminLogin = () => {
       setLoading(true);
       const { data } = await axios.post("/api/auth/admin/login", formData);
       if (data.success) {
-        setAdmin(data.user);
+        setAdmin(true);
+        localStorage.setItem("admin", JSON.stringify(data.admin));
         toast.success(data.message);
         navigate("/admin");
       } else {

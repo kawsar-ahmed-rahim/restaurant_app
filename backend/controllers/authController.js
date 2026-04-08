@@ -81,13 +81,13 @@ export const adminLogin = async (req, res) => {
         success: false,
       });
     }
-    const adminEmail = process.env.adminEmail;
+    const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
 
-    if (email !== adminEmail || password !== ADMIN_PASSWORD) {
+    if (email !== adminEmail || password !== adminPassword) {
       return res.json({ message: "Admin does not exists", success: false });
     }
-    const token = jwt.sign({ email }, process.env.JWT, {
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
     res.cookie("token", token, {
@@ -96,10 +96,9 @@ export const adminLogin = async (req, res) => {
       sameSite: "strict",
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({
-      message: "Admin logged in successfully",
-      success: true,
-    });
+    res.json({admin:{
+      email:adminEmail
+    }, message: "Admin logged in successfully", success: true });
   } catch (error) {
     console.log(error.message);
     return res.json({ message: "Internal server error", success: false });
