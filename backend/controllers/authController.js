@@ -75,6 +75,7 @@ export const loginUser = async (req, res) => {
 export const adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     if (!email || !password) {
       return res.json({
         message: "Please fill all the fields",
@@ -84,10 +85,13 @@ export const adminLogin = async (req, res) => {
     const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
 
+    console.log(process.env.ADMIN_EMAIL);
+    console.log(process.env.ADMIN_PASSWORD);
+
     if (email !== adminEmail || password !== adminPassword) {
       return res.json({ message: "Admin does not exists", success: false });
     }
-    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ email, role:"admin" }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
     res.cookie("token", token, {
@@ -96,9 +100,13 @@ export const adminLogin = async (req, res) => {
       sameSite: "strict",
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({admin:{
-      email:adminEmail
-    }, message: "Admin logged in successfully", success: true });
+    res.json({
+      admin: {
+        email: adminEmail,
+      },
+      message: "Admin logged in successfully",
+      success: true,
+    });
   } catch (error) {
     console.log(error.message);
     return res.json({ message: "Internal server error", success: false });
@@ -128,13 +136,13 @@ export const getProfile = async (req, res) => {
   }
 };
 
-export const isAuth= async (req, res) => {
+export const isAuth = async (req, res) => {
   try {
-    const {id} = req.user;
+    const { id } = req.user;
     const user = await User.findById(req.user.id).select("-password");
-    
+
     return res.json({ message: "User is authenticated", success: true, user });
-  } catch (error) { 
+  } catch (error) {
     return res.json({ message: "Internal server error", success: false });
   }
 };

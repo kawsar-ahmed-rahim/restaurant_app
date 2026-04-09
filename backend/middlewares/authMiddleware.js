@@ -9,9 +9,20 @@ export const protect = (req, res, next) => {
   }
 
   try {
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+
+    if (decoded.email !== process.env.ADMIN_EMAIL) {
+      return res.status(403).json({
+        message: "Admin access required",
+        success: false
+      });
+    }
+
+    req.admin = decoded;
+
     next();
+
   } catch (error) {
     return res.status(401).json({ message: "Invalid token" });
   }
