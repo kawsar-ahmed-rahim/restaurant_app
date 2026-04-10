@@ -45,7 +45,19 @@ const AddCategory = () => {
     }
 
     return (<div className="py-12">
-      <form onSubmit={handleSubmit} className="max-w-md w-full flex flex-col gap-5"></form>
+      <form onSubmit={handleSubmit} className="max-w-md w-full flex flex-col gap-5">
+        {preview &&<img src={preview} alt="preview" className="w-1/2" />}
+        <div><label className="block text-sm font-medium text-gray-700 mb-2">
+          Category Name *
+          </label>
+          <input type="text" name="name" value={formData.name} onChange={handleChange} required className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-transparent" placeholder="Enter Category Name" /></div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Category Image</label>
+            <input type="file" id="fileUpload" className="hidden" onChange={handleFileChange}  required />
+            {/* custom upload area */}
+            <label htmlFor="fileUpload" className="flex flex-col items-center justify-center w-full h-32 border border-dashed border-gray-300 rounded-lg cursor-pointer focus:outline-none focus:ring-2 transition"></label>
+          </div>
+      </form>
 
     </div>);
   };
