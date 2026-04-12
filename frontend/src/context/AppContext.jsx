@@ -11,7 +11,8 @@ const AppContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
    const [admin, setAdmin] = useState(null);
-
+  const [categories, setCategories] = useState([]);
+  
   const isAuth=async()=>{
     try {
       const {data}=await axios.get("/api/auth/is-auth");

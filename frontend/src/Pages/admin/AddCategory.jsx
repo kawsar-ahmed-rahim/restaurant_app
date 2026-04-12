@@ -2,6 +2,7 @@ import React from "react";
 import { useContext, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
+import { Upload } from "lucide-react";
 const AddCategory = () => {
   const { axios, navigate, loading, setLoading } = useContext(AppContext);
   const [formData, setFormData] = useState({ name: "", image: null });
@@ -27,39 +28,70 @@ const AddCategory = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const data = new FormData();
-      data.append("name", formData.name);
-      data.append("image", formData.image);
-      const res = await axios.post("/api/categories", data);
-      if (res.data.success) {
-        toast.success(res.data.message);
+      const { data } = await axios.post("/api/category/add", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (data.success) {
+        toast.success(data.success);
         navigate("/admin/categories");
       } else {
-        toast.error(res.data.message);
+        toast.error(data.message);
       }
-    // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      toast.error("Something went wrong!");
+      toast.error(error.response.data.message || "Something went wrong!");
     } finally {
       setLoading(false);
     }
 
-    return (<div className="py-12">
-      <form onSubmit={handleSubmit} className="max-w-md w-full flex flex-col gap-5">
-        {preview &&<img src={preview} alt="preview" className="w-1/2" />}
-        <div><label className="block text-sm font-medium text-gray-700 mb-2">
-          Category Name *
-          </label>
-          <input type="text" name="name" value={formData.name} onChange={handleChange} required className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-transparent" placeholder="Enter Category Name" /></div>
+    return (
+      <div className="py-12">
+        <form
+          onSubmit={handleSubmit}
+          className="max-w-md w-full flex flex-col gap-5"
+        >
+          {preview && <img src={preview} alt="preview" className="w-1/2" />}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Category Image</label>
-            <input type="file" id="fileUpload" className="hidden" onChange={handleFileChange}  required />
-            {/* custom upload area */}
-            <label htmlFor="fileUpload" className="flex flex-col items-center justify-center w-full h-32 border border-dashed border-gray-300 rounded-lg cursor-pointer focus:outline-none focus:ring-2 transition"></label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Category Name *
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-transparent"
+              placeholder="Enter Category Name"
+            />
           </div>
-      </form>
-
-    </div>);
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Category Image
+            </label>
+            <input
+              type="file"
+              id="fileUpload"
+              className="hidden"
+              onChange={handleFileChange}
+              required
+            />
+            {/* custom upload area */}
+            <label
+              htmlFor="fileUpload"
+              className="flex flex-col items-center justify-center w-full h-32 border border-dashed border-gray-300 rounded-lg cursor-pointer focus:outline-none focus:ring-2 transition"
+            >
+              <Upload className="w-8 h-8 text-gray-500 mb-2" />
+              <span className="text-gray-600 text-sm">
+                {file ? file.name : "Click to upload an image"}
+              </span>
+            </label>
+          </div>
+          <button className="bg-orange-500 text-white px-8 py-3 cursor-pointer">
+            {loading ? "adding..." : "add category"}
+          </button>
+        </form>
+      </div>
+    );
   };
 };
 
