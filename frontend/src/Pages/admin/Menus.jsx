@@ -7,12 +7,12 @@ import toast from "react-hot-toast";
 const Menus = () => {
   const { axios, menus, fetchMenus} = useContext(AppContext);
 
-  const deleteCategory=async(id)=>{
+  const deleteMenu=async(id)=>{
     try {
-      const {data} = await axios.delete(`/api/category/delete/${id}`);
+      const {data} = await axios.delete(`/api/menu/delete/${id}`);
       if(data.success) {
         toast.success(data.message);
-        fetchCategories()
+        fetchMenus()
       } else {
         toast.error(data.message)
 
@@ -25,7 +25,7 @@ const Menus = () => {
     <div className="py-4">
       <h1 className="text-3xl font-bold mb-3">All Menus</h1>
       <div className="border border-gray-400 max-w-5xl mx-auto p-3">
-        <div className="grid grid-cols-3 font-semibold text-gray-700">
+        <div className="grid grid-cols-5 font-semibold text-gray-700">
           <div>Image</div>
           <div>Name</div>
           <div>Category</div>
@@ -36,16 +36,16 @@ const Menus = () => {
         <ul>
           {menus.map((item) => (
             <div key={item._id}>
-              <div className="grid grid-cols-3 items-center mb-4">
+              <div className="grid grid-cols-5 items-center mb-4">
                 <div className="flex items-center gap-2 max-w-md">
                   <img src={item.image} alt="image" className="w-20 h-20" />
                 </div>
-                <p>{item.name}</p>
-                 <p>{item.category.name}</p>
-                                 <p>$ {item.price}</p>
+                <p>{item?.name}</p>
+                 <p>{item?.category.name}</p>
+                  <p>$ {item?.price}</p>
                 <p
                   className="text-red-600 cursor-pointer hover:underline"
-                  onClick={()=>deleteCategory(item._id)}
+                  onClick={()=>deleteMenu(item._id)}
                 >
                   <CircleX />
                 </p>

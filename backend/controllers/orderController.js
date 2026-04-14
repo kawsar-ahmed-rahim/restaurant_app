@@ -61,7 +61,7 @@ export const getUserOrders = async (req, res) => {
 // get all orders (admin)
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate("user").sort({ createdAt: -1 });
+    const orders = await Order.find().populate("user").populate("items.menuItem").sort({ createdAt: -1 });
     res.status(200).json({ orders, success: true });
   } catch (error) {
     console.log(error);
