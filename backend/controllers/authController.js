@@ -85,8 +85,6 @@ export const adminLogin = async (req, res) => {
     const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
 
-    console.log(process.env.ADMIN_EMAIL);
-    console.log(process.env.ADMIN_PASSWORD);
 
     if (email !== adminEmail || password !== adminPassword) {
       return res.json({ message: "Admin does not exists", success: false });

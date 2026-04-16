@@ -15,7 +15,9 @@ const AdminLogin = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const { data } = await axios.post("/api/auth/admin/login", formData);
+      const { data } = await axios.post("/api/auth/admin/login", formData, {
+            withCredentials: true,
+      });
       if (data.success) {
         setAdmin(data.admin);
         localStorage.setItem("admin", JSON.stringify(data.admin));

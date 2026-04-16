@@ -30,32 +30,51 @@ const AddMenu = () => {
       setPreview(URL.createObjectURL(selectedFile));
     }
   };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      const { data } = await axios.post("/api/menu/add", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      if (data.success) {
-        toast.success(data.message);
-        navigate("/admin/menus");
-      } else {
-        toast.error(data.message);
+  e.preventDefault();
+
+  try {
+    setLoading(true);
+
+    // ✅ Create FormData
+    const dataToSend = new FormData();
+    dataToSend.append("name", formData.name);
+    dataToSend.append("price", formData.price);
+    dataToSend.append("description", formData.description);
+    dataToSend.append("category", formData.category);
+    dataToSend.append("image", file); // important
+
+    // ✅ Send request with cookies
+    const { data } = await axios.post(
+      "/api/menu/add",
+      dataToSend,
+      {
+        withCredentials: true,
       }
-    } catch (error) {
-      toast.error(error.response.data.message || "Something went wrong");
-    } finally {
-      setLoading(false);
+    );
+
+    if (data.success) {
+      toast.success(data.message);
+      navigate("/admin/menus");
+    } else {
+      toast.error(data.message);
     }
-  };
+
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message || "Something went wrong"
+    );
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="py-12">
       <form
         onSubmit={handleSubmit}
         className="max-w-2xl w-full flex flex-col gap-5"
       >
-
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Menu Name *
@@ -102,14 +121,19 @@ const AddMenu = () => {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Select Category
           </label>
-         <select name="category" value={formData.category} onChange={handleChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
-          <option value="">Select a category</option>
-          {
-            categories.map((item)=>{
-              <option key={item._id} value={item._id}>{item.name}</option>
-            })
-          }
-         </select>
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+          >
+            <option value="">Select a category</option>
+            {categories.map((item) => (
+              <option key={item._id} value={item._id}>
+                {item.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
@@ -135,26 +159,13 @@ const AddMenu = () => {
           </label>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Menu Name *
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2  focus:border-transparent"
-            placeholder="Enter Menu name"
-          />
-          {preview && <img src={preview} alt="preview" className="w-22" />}
+          {preview && <img src={preview} alt="preview" className="w-24" />}
+        </div>
         <button className="bg-orange-500 text-white px-8 py-3 cursor-pointer">
           {loading ? "adding.." : "add menu"}
         </button>
       </form>
     </div>
-
-    
   );
 };
 

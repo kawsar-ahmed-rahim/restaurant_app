@@ -14,51 +14,61 @@ const AppContextProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [menus, setMenus] = useState([]);
 
-  const fetchCategories=async() => {
+  const fetchCategories = async () => {
     try {
-      const {data} =await axios.get("/api/category/all")
-      if(data.success) {
-        setCategories(data.categories)
+      const { data } = await axios.get("/api/category/all");
+      if (data.success) {
+        setCategories(data.categories);
       } else {
         console.log("Failed to fetch categories");
-        
       }
     } catch (error) {
-      console.log("Error fetching categories:",error);
-      
+      console.log("Error fetching categories:", error);
     }
-  }
-  const fetchMenus=async() => {
+  };
+  const fetchMenus = async () => {
     try {
-      const {data} =await axios.get("/api/menu/all")
-      if(data.success) {
-        setMenus(data.menuItems)
+      const { data } = await axios.get("/api/menu/all");
+      if (data.success) {
+        setMenus(data.menuItems);
       } else {
         console.log("Failed to fetch categories");
-        
       }
     } catch (error) {
-      console.log("Error fetching categories:",error);
-      
+      console.log("Error fetching categories:", error);
     }
-  }
-  const isAuth=async()=>{
+  };
+  const isAuth = async () => {
     try {
-      const {data}=await axios.get("/api/auth/is-auth");
-      if(data.success){
+      const { data } = await axios.get("/api/auth/is-auth");
+      if (data.success) {
         setUser(data.user);
       }
     } catch (error) {
       console.log(error);
-      
     }
-  }
+  };
   useEffect(() => {
     isAuth();
     fetchCategories();
     fetchMenus();
-  },[]);
-  const value = { navigate, loading, setLoading, user, setUser, axios, admin, setAdmin, categories, fetchCategories, menus, fetchMenus };
+  }, []);
+
+  const value = {
+    navigate,
+    loading,
+    setLoading,
+    user,
+    setUser,
+    admin,
+    setAdmin,
+    axios,
+    categories,
+    setCategories,
+    fetchCategories,
+    menus,
+    fetchMenus,
+  };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
