@@ -17,10 +17,10 @@ const Bookings = () => {
       console.log(error);
     }
   };
-  const handleStatusChange = async (orderId, newStatus) => {
+  const handleStatusChange = async (bookingId, newStatus) => {
     try {
       setLoading(true);
-      const { data } = await axios.put(`/api/order/update-status/${orderId}`, {
+      const { data } = await axios.put(`/api/booking/update-status/${bookingId}`, {
         status: newStatus,
       });
       if (data.success) {
@@ -44,12 +44,12 @@ const Bookings = () => {
   return (
     <div>
       <div className="py-24 px-3 sm:px-6">
-        <h1 className="text-3xl font-bold text-center my-3">All Orders</h1>
+        <h1 className="text-3xl font-bold text-center my-3">All Bookings</h1>
         <div className="border border-gray-400 max-auto p-3 rounded-lg">
           {/* Header */}
           <div className="hidden md:grid grid-cols-6 font-semibold text-gray-700 mt-3">
             <div>Name</div>
-            <div>Name</div>
+            <div>Number</div>
             <div>Persons</div>
             <div>Date</div>
             <div>Time</div>
@@ -61,16 +61,23 @@ const Bookings = () => {
               <li key={item._id} className="border rounded-lg p-3 md:p-2">
                 <div className="flex flex-col md:grid md:grid-cols-6 md:items-center gap-2 md:gap-0">
                   <p className="font-medium text-center md:text-left">
-                    {item?.user.name}
+                    {item?.name}
                   </p>
                   <p className="font-medium text-center md:text-left">
-                    {item?.address}
+                    {item?.phone}
                   </p>
                   <p className="text-gray-600 hidden md:block">
-                    $ {item?.totalAmount}
+                    $ {item?.numberOfPeople}
                   </p>
                   <p className="text-gray-600 hidden md:block">
-                    $ {item?.paymentMethod}
+                    {new Date(item?.date).toLocaleDateString("en-US",{
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </p>
+                  <p className="text-gray-600 hidden md:block">
+                    $ {item?.time}
                   </p>
                   <div className="flex justify-center md:justify-start items-center gap-2 md:gap-5 mt-2 md:mt-0">
                     <select

@@ -99,11 +99,11 @@ export const adminLogin = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
     res.json({
+      success: true,
+            message: "Admin logged in successfully",
       admin: {
         email: adminEmail,
       },
-      message: "Admin logged in successfully",
-      success: true,
     });
   } catch (error) {
     console.log(error.message);
