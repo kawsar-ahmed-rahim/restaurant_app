@@ -7,7 +7,7 @@ const Categories = () => {
   return <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
     <div className="container mx-auto px-4 text-center">
         <h2>Explore Our <span className="text-yellow-500">Categories</span></h2>
-        <p></p>
+        <p>Discover delicious dishes from our carefully curated categories</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {categories.map((cat)=>(
             <div key={cat._id} className="cursor-pointer group">
