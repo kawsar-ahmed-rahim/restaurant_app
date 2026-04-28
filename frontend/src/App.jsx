@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import React from "react";
 import Home from "./Pages/Home";
-import Menu from "./Pages/Menus";
+import Menu from "./Pages/Menu";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
 import MenuDetails from "./Pages/MenuDetails";
