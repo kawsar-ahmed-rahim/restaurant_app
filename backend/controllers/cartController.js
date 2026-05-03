@@ -3,10 +3,10 @@ import Cart from "../models/cartModel.js";
 // add to cart
 export const addToCart = async (req, res) => {
   try {
-    const { menuItemId, quantity } = req.body;
+    const { menuId, quantity } = req.body;
     const { id } = req.user;
 
-    const menuItem = await Menu.findById(menuItemId);
+    const menuItem = await Menu.findById(menuId);
     if (!menuItem) {
       return res
         .status(400)
@@ -20,12 +20,12 @@ export const addToCart = async (req, res) => {
       });
     }
     const existingItem = cart.items.find(
-      (item) => item.menuItem.toString() === menuItemId,
+      (item) => item.menuItem.toString() === menuId,
     );
     if (existingItem) {
       existingItem.quantity += quantity;
     } else {
-      cart.items.push({ menuItem: menuItemId, quantity });
+      cart.items.push({ menuItem: menuId, quantity });
     }
     await cart.save();
     return res

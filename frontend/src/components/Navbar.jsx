@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 const Navbar = () => {
-  const { navigate, user, setUser, axios } = useContext(AppContext);
+  const { navigate, user, setUser, axios, cartCount } = useContext(AppContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const logout = async () => {
@@ -70,7 +70,7 @@ const Navbar = () => {
             >
               <ShoppingCart size={22} className="text-gray-700" />
               <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xl rounded-full w-5 h-5 flex items-center justify-center font-medium">
-                3
+                {cartCount}
               </span>
             </button>
             <div className="hidden md:block">

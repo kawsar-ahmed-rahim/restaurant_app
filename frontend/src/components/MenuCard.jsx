@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { ShoppingCart } from "lucide-react";
+import { addToCart } from './../../../backend/controllers/cartController';
 const MenuCard = ({ menu }) => {
-  const { navigate } = useContext(AppContext);
+  const { navigate, addToCart } = useContext(AppContext);
   return (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group">
       {/* image section */}
@@ -38,7 +39,7 @@ const MenuCard = ({ menu }) => {
           <div>
             <p className="text-2xl font-bold text-gray-900">${menu.price}</p>
           </div>
-          <button onClick={""} disabled={!menu.isAvailable} className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold transition-all duration-300 ${menu.isAvailable?"bg-yellow-500 hover:bg-yellow-600 text-white hover:scale-90 hover:shadow-lg active:scale-95":"bg-gray-300 text-gray-500 cursor-not-allowed"}`}>
+          <button onClick={()=>addToCart(menu._id)} disabled={!menu.isAvailable} className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold transition-all duration-300 ${menu.isAvailable?"bg-yellow-500 hover:bg-yellow-600 text-white hover:scale-90 hover:shadow-lg active:scale-95":"bg-gray-300 text-gray-500 cursor-not-allowed"}`}>
             <ShoppingCart className="w-4 h-4"/><span className="text-sm">Add</span>
           </button>
         </div>

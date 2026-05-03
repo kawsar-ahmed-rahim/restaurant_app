@@ -2,9 +2,10 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "./../context/AppContext";
 import { useState, useContext } from "react";
 import { ArrowLeft, CheckCircle } from "lucide-react";
+import { addToCart } from './../../../backend/controllers/cartController';
 const MenuDetails = () => {
   const { id } = useParams();
-  const { menus, navigate } = useContext(AppContext);
+  const { menus, navigate, addToCart } = useContext(AppContext);
   const [quantity, setQuantity] = useState(1);
   const menu = menus.find((item) => item._id === id);
 
@@ -106,7 +107,7 @@ const MenuDetails = () => {
                   ${totalPrice}
                 </span>
               </div>
-              <button disabled={!menu.isAvailable} onClick={""} className={`cursor-pointer w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
+              <button disabled={!menu.isAvailable} onClick={()=>addToCart(menu._id)} className={`cursor-pointer w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
                 menu.isAvailable ? "ng-white text-yellow-600 hover:bg-gray-50 hover:scale-105 active:scale-95 shadow-lg":"bg-gray-300 text-gray-500 cursor-not-allowed"}`}>
                 <ShoppingCart className="w-6 h-6" />
                 {menu.isAvailable? "Add to Cart" : "Unavailable"}
