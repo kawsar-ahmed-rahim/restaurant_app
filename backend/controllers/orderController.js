@@ -4,7 +4,7 @@ import Cart from "../models/cartModel.js";
 export const placeOrder = async (req, res) => {
   try {
     const { id } = req.user;
-    const { address } = req.body;
+    const { address, paymentMethod } = req.body;
 
     if (!address) {
       return res
@@ -29,6 +29,7 @@ export const placeOrder = async (req, res) => {
       })),
       totalAmount,
       address,
+      paymentMethod,
     });
     // clear cart
     cart.items = [];
