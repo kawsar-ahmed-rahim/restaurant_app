@@ -60,15 +60,15 @@ export const getCart = async (req, res) => {
 export const removeFromCart = async (req, res) => {
   try {
     const { id } = req.user;
-    const { menuItemId } = req.body;
+    const { menuId } = req.params;
     const cart = await Cart.findOne({ user: id });
     if (!cart) {
       return res
         .status(400)
-        .json({ message: "Cart not found", success: false });
+        .json({ message: "Cart not found"});
     }
     cart.items = cart.items.filter(
-      (item) => item.menuItem.toString() !== menuItemId,
+      (item) => item._id !== menuId,
     );
 
     await cart.save();

@@ -1,9 +1,10 @@
 import React from "react";
 import { AppContext } from "../context/AppContext";
 import { useContext } from "react";
+import { removeFromCart } from './../../../backend/controllers/cartController';
 const Cart = () => {
   const Cart = () => {
-    const { cart, totalPrice, navigate } = useContext(AppContext);
+    const { cart, totalPrice, navigate, removeFromCart } = useContext(AppContext);
     if (!cart || !cart.items || cart.items.length === 0) {
       return (
         <div className="flex flex-col items-center justify-center h-64">
@@ -25,6 +26,8 @@ const Cart = () => {
               <th className="py-3 px-4 text-left">Qty</th>
               <th className="py-3 px-4 text-left">Price</th>
               <th className="py-3 px-4 text-left">Total</th>
+              <th className="py-3 px-4 text-left">Action</th>
+
             </tr>
           </thead>
           <tbody>
@@ -40,14 +43,23 @@ const Cart = () => {
                     {item.menuItem.name}
                   </span>
                 </td>
-                <td className="py-3 px-4 flex items-center space-x-3">
+                <td className="py-3 px-4  text-center text-gray-700">
                   {item.quantity}
                 </td>
-                <td className="py-3 px-4 flex items-center space-x-3">
+                <td className="py-3 px-4  text-center text-gray-700">
                   ${item.menuItem.price}
                 </td>
-                <td className="py-3 px-4 flex items-center space-x-3">
+                <td className="py-3 px-4 text-center text-gray-700 font-semibold">
                   ${item.menuItem.price * item.quantity}
+                </td>
+                <td className="py-3 px-4 text-center text-gray-700 font-semibold">
+                  <X onclick={()=> removeFromCart(item._id)} className="w-6 h-6"/>
+                  <button
+                    onClick={() => removeFromCart(item.menuItem._id)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    Remove
+                  </button>
                 </td>
               </tr>
             ))}
