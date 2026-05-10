@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { ShoppingCart } from "lucide-react";
-import { addToCart } from './../../../backend/controllers/cartController';
 const MenuCard = ({ menu }) => {
   const { navigate, addToCart } = useContext(AppContext);
   return (

@@ -1,123 +1,89 @@
-import { useParams } from "react-router-dom";
-import { AppContext } from "./../context/AppContext";
-import { useState, useContext } from "react";
-import { ArrowLeft, CheckCircle } from "lucide-react";
-import { addToCart } from './../../../backend/controllers/cartController';
-const MenuDetails = () => {
-  const { id } = useParams();
-  const { menus, navigate, addToCart } = useContext(AppContext);
-  const [quantity, setQuantity] = useState(1);
-  const menu = menus.find((item) => item._id === id);
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
+import { X } from "lucide-react";
 
-  if (!menu) {
+const Cart = () => {
+  const { cart, totalPrice, navigate, removeFromCart } = useContext(AppContext);
+
+  if (!cart?.items?.length) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            Menu not found
-          </h2>
-          <p className="text-gray-600 mb-6">
-            The item you are looking for doesn't exist
-          </p>
-          <button
-            onClick={() => navigate("/menu")}
-            className="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full font-semibold transition-colors"
-          >
-            Back to menu
-          </button>
-        </div>
+      <div className="flex flex-col items-center justify-center h-64">
+        <h2 className="text-2xl font-semibold text-gray-700">
+          Your cart is empty
+        </h2>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      {/* back button */}
-      <div className="container mx-auto px-4 py-6">
-        <button
-          onClick={() => navigate("/menu")}
-          className="flex items-center gap-2 text-gray-600 hover:text-yellow-500 transition-colors group"
-        >
-          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-colors" />
-          <span className="font-semibold">Back to menu</span>
-        </button>
+    <div className="max-w-4xl mx-auto mt-10 bg-white shadow-lg rounded-2xl p-6">
+      <h2 className="text-2xl font-semibold mb-6 text-center">Your Cart</h2>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full border-gray-200 rounded-lg">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="py-3 px-4 text-left">Item</th>
+              <th className="py-3 px-4 text-left">Qty</th>
+              <th className="py-3 px-4 text-left">Price</th>
+              <th className="py-3 px-4 text-left">Total</th>
+              <th className="py-3 px-4 text-left">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {cart.items.map((item) => (
+              <tr key={item._id} className="border-t hover:bg-gray-50">
+                <td className="py-3 px-4 flex items-center gap-3">
+                  <img
+                    src={item.menuItem.image}
+                    alt={item.menuItem.name}
+                    className="w-12 h-12 object-cover rounded"
+                  />
+                  <span className="font-medium text-gray-800">
+                    {item.menuItem.name}
+                  </span>
+                </td>
+
+                <td className="py-3 px-4 text-center">{item.quantity}</td>
+
+                <td className="py-3 px-4 text-center">
+                  ${item.menuItem.price}
+                </td>
+
+                <td className="py-3 px-4 text-center font-semibold">
+                  ${item.menuItem.price * item.quantity}
+                </td>
+
+                <td className="py-3 px-4 text-center">
+                  <button
+                    onClick={() => removeFromCart(item._id)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <X className="w-5 h-5 inline" />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      {/* main content */}
-      <div className="container mx-auto px-4 pb-16">
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          {/* image section */}
-          <div className="relative">
-            <div className="sticky top-8">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <img
-                  src={menu.image}
-                  alt="image"
-                  className="w-full h-[400px] object-cover"
-                />
 
-                {/* availability badge */}
-                <div className="absolute top-6 right-6">
-                  {menu.isAvailable ? (
-                    <div className="bg-green-500 text-white px-4 py-2 rounded-full flex items-center gap-2 font-semibold shadow-lg">
-                      <CheckCircle className="w-5 h-5" />
-                      <span>Available</span>
-                    </div>
-                  ) : (
-                    <div className="bg-red-500 text-white px-4 py-2 rounded-full flex items-center gap-2 font-semibold shadow-lg">
-                      <XCircle className="w-5 h-5" />
-                      <span>Unavailable</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* details section */}
-          <div className="space-y-6">
-            {/* title and price */}
-            <div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                {menu.name}
-              </h1>
-              <div className="flex items-baseline gap-3">
-                <span className="text-4xl font-bold text-yellow-500">
-                  ${menu.price}
-                </span>
-                <span className="text-gray-500 text-lg">Per item</span>
-              </div>
-            </div>
+      <div className="flex justify-between items-center mt-6">
+        <h3 className="text-xl font-semibold">
+          Total:{" "}
+          <span className="text-green-600">${totalPrice}</span>
+        </h3>
 
-            {/* description */}
-
-            <div className="bg-gray-50 rounded-2xl p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-3">
-                Description
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                {menu.description}
-              </p>
-            </div>
-            {/* total and add to cart */}
-            <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-2xl p-6 shadow-xl">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-white text-lg font-semibold">
-                  Total Amount
-                </span>
-                <span className="text-white text-3xl font-bold">
-                  ${totalPrice}
-                </span>
-              </div>
-              <button disabled={!menu.isAvailable} onClick={()=>addToCart(menu._id)} className={`cursor-pointer w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
-                menu.isAvailable ? "ng-white text-yellow-600 hover:bg-gray-50 hover:scale-105 active:scale-95 shadow-lg":"bg-gray-300 text-gray-500 cursor-not-allowed"}`}>
-                <ShoppingCart className="w-6 h-6" />
-                {menu.isAvailable? "Add to Cart" : "Unavailable"}
-              </button>
-            </div>
-          </div>
-        </div>
+        <button
+          onClick={() => navigate("/checkout")}
+          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
+        >
+          Checkout
+        </button>
       </div>
     </div>
   );
 };
 
-export default MenuDetails;
+export default Cart;

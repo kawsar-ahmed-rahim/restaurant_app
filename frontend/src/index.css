@@ -2,6 +2,8 @@
 
 @import "tailwindcss";
 
-* {
-  font-family: "Roboto", sans-serif;
+@layer base {
+  html {
+    font-family: "Roboto", sans-serif;
+  }
 }
