@@ -3,7 +3,7 @@ import { AppContext } from "../context/AppContext";
 import { X } from "lucide-react";
 import toast from "react-hot-toast";
 const Cart = () => {
-  const { cart, totalPrice, navigate, removeFromCart, axios, fetchCartData } =
+  const { cart, totalPrice, navigate, axios, fetchCartData } =
     useContext(AppContext);
 
   if (!cart || !cart.items || cart.items.length === 0) {

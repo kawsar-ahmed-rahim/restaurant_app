@@ -1,11 +1,8 @@
-import React, { useContext, useState } from 'react';
-import { AppContext } from './../context/AppContext';
+import { useContext, useState } from "react";
+import { AppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
-
 const BookTable = () => {
-
   const { axios, navigate } = useContext(AppContext);
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,57 +14,38 @@ const BookTable = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-
-      const { data } = await axios.post(
-        "/api/bookings/create",
-        formData
-      );
-
-      if (data?.success) {
+      const { data } = await axios.post("/api/booking/create", formData);
+      if (data.success) {
         toast.success(data.message);
         navigate("/my-bookings");
       } else {
         toast.error(data.message);
       }
-
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong");
+      toast.error("Something went wrong!");
     }
   };
-
   return (
-    <div className='max-w-3xl mx-auto mt-10 bg-white shadow-lg rounded-2xl p-6'>
-
-      <h2 className="text-2xl font-semibold text-center mb-6">
-        Book a Table
-      </h2>
-
-      <form onSubmit={handleSubmit} className='space-y-4'>
-
+    <div className="max-w-3xl mx-auto mt-10 bg-white shadow-lg rounded-2xl p-6">
+      <h2 className="text-2xl font-semibold text-center mb-6">Book a Table</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Your Name"
+            placeholder="You Name"
             className="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-green-500 focus:outline-none"
             required
           />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input
             type="email"
             name="email"
@@ -85,25 +63,21 @@ const BookTable = () => {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            placeholder="Your Phone"
+            placeholder="Phone Number"
             className="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-green-500 focus:outline-none"
             required
           />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input
             type="number"
             name="numberOfPeople"
             value={formData.numberOfPeople}
             onChange={handleChange}
-            placeholder="Number of People"
+            placeholder="Number of Guests"
             min="1"
             className="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-green-500 focus:outline-none"
             required
           />
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input
             type="date"
@@ -113,9 +87,6 @@ const BookTable = () => {
             className="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-green-500 focus:outline-none"
             required
           />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input
             type="time"
             name="time"
@@ -125,29 +96,23 @@ const BookTable = () => {
             required
           />
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <textarea
-            name="note"
-            value={formData.note}
-            onChange={handleChange}
-            placeholder="Special Requests (optional)"
-            rows="3"
-            className="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-green-500 focus:outline-none resize-none"
-          />
-        </div>
+        <textarea
+          name="note"
+          value={formData.note}
+          onChange={handleChange}
+          placeholder="Special Requests (optional)"
+          rows="3"
+          className="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-green-500 focus:outline-none resize-none"
+        ></textarea>
 
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-500 transition font-medium"
+          className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition font-medium"
         >
           Confirm Booking
         </button>
-
       </form>
-
     </div>
   );
 };
-
 export default BookTable;

@@ -68,7 +68,7 @@ export const removeFromCart = async (req, res) => {
         .json({ message: "Cart not found"});
     }
     cart.items = cart.items.filter(
-      (item) => item._id !== menuId,
+      (item) => item.menuItem._id.toString() !== menuId,
     );
 
     await cart.save();

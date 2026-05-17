@@ -7,8 +7,9 @@ const generateToken = (res, payload) => {
   const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    // secure: process.env.NODE_ENV === "production",
+    secure: false,
+    sameSite: "lax",
     maxAge: 24 * 60 * 60 * 1000,
   });
   return token;
@@ -85,22 +86,22 @@ export const adminLogin = async (req, res) => {
     const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
 
-
     if (email !== adminEmail || password !== adminPassword) {
       return res.json({ message: "Admin does not exists", success: false });
     }
-    const token = jwt.sign({ email, role:"admin" }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ email, role: "admin" }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      // secure: process.env.NODE_ENV === "production",
+      secure: false,
+      sameSite: "lax",
       maxAge: 24 * 60 * 60 * 1000,
     });
     res.json({
       success: true,
-            message: "Admin logged in successfully",
+      message: "Admin logged in successfully",
       admin: {
         email: adminEmail,
       },
@@ -141,6 +142,29 @@ export const isAuth = async (req, res) => {
 
     return res.json({ message: "User is authenticated", success: true, user });
   } catch (error) {
+    return res.json({ message: "Internal server error", success: false });
+  }
+};
+
+// admin auth - check if admin is logged in
+export const adminAuth = async (req, res) => {
+  try {
+    const { email, role } = req.user;
+
+    if (role !== "admin") {
+      return res.json({ message: "Not an admin", success: false });
+    }
+
+    return res.json({
+      message: "Admin is authenticated",
+      success: true,
+      user: {
+        email: email,
+        role: role,
+      },
+    });
+  } catch (error) {
+    console.log(error.message);
     return res.json({ message: "Internal server error", success: false });
   }
 };

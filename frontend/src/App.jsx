@@ -24,6 +24,7 @@ import AddMenu from "./Pages/admin/AddMenu";
 import Categories from "./Pages/admin/Categories";
 import Orders from "./Pages/admin/Orders";
 import Bookings from "./Pages/admin/Bookings";
+import AdminRoute from "./components/AdminRoute";
 const App = () => {
   const location = useLocation();
   const adminPath = location.pathname.includes("admin");
@@ -48,27 +49,22 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
 
         {/* admin routes */}
-        <Route path="/admin" element={admin ? <AdminLayout /> : <AdminLogin />}>
-          <Route index element={admin ? <Dashboard /> : <AdminLogin />} />
-          <Route
-            path="add-category"
-            element={admin ? <AddCategory /> : <AdminLogin />}
-          />
-          <Route
-            path="add-menu"
-            element={admin ? <AddMenu /> : <AdminLogin />}
-          />
-          <Route
-            path="categories"
-            element={admin ? <Categories /> : <AdminLogin />}
-          />
-          <Route path="menus" element={admin ? <Menu /> : <AdminLogin />} />
-          <Route path="orders" element={admin ? <Orders /> : <AdminLogin />} />
-          <Route
-            path="bookings"
-            element={admin ? <Bookings /> : <AdminLogin />}
-          />
-        </Route>
+        <Route
+  path="/admin"
+  element={
+    <AdminRoute>
+      <AdminLayout />
+    </AdminRoute>
+  }
+>
+  <Route index element={<Dashboard />} />
+  <Route path="add-category" element={<AddCategory />} />
+  <Route path="add-menu" element={<AddMenu />} />
+  <Route path="categories" element={<Categories />} />
+  <Route path="menus" element={<Menu />} />
+  <Route path="orders" element={<Orders />} />
+  <Route path="bookings" element={<Bookings />} />
+</Route>
       </Routes>
       {!adminPath && <Footer />}
     </div>

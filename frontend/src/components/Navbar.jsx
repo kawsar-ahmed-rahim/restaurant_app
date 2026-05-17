@@ -12,15 +12,19 @@ import {
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 const Navbar = () => {
-  const { navigate, user, setUser, axios, cartCount } = useContext(AppContext);
+  const {
+    navigate,
+    user,
+    logout: handleLogout,
+    cartCount,
+  } = useContext(AppContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const logout = async () => {
     try {
-      const { data } = await axios.post("/api/auth/logout");
-      if (data.success) {
-        setUser(null);
-        toast.success(data.message);
+      const success = await handleLogout();
+      if (success) {
+        toast.success("Logged out successfully");
         navigate("/");
       }
     } catch (error) {
@@ -76,7 +80,7 @@ const Navbar = () => {
             >
               <ShoppingCart size={22} className="text-gray-700" />
               <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xl rounded-full w-5 h-5 flex items-center justify-center font-medium">
-                {cartCount>0? cartCount : 0}
+                {cartCount > 0 ? cartCount : 0}
               </span>
             </button>
             <div className="hidden md:block">
@@ -169,29 +173,28 @@ const Navbar = () => {
                       className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100"
                     >
                       <Link
-                    to={"/my-bookings"}
-                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                  >
-                    <Calendar size={18} className="mr-3" />
-                    My Bookings{" "}
-                  </Link>
-                  <Link
-                    to={"/my-orders"}
-                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                  >
-                    <Package size={18} className="mr-3" />
-                    My Orders{" "}
-                  </Link>
-                  <button
-                    onClick={logout}
-                    className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
-                  >
-                    <LogOut size={18} className="mr-3" />
-                    Logout
-                  </button>
+                        to={"/my-bookings"}
+                        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                      >
+                        <Calendar size={18} className="mr-3" />
+                        My Bookings{" "}
+                      </Link>
+                      <Link
+                        to={"/my-orders"}
+                        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+                      >
+                        <Package size={18} className="mr-3" />
+                        My Orders{" "}
+                      </Link>
+                      <button
+                        onClick={logout}
+                        className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        <LogOut size={18} className="mr-3" />
+                        Logout
+                      </button>
                     </div>
                   )}{" "}
-                  
                 </div>
               ) : (
                 <button

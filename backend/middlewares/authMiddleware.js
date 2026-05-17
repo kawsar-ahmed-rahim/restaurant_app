@@ -1,34 +1,6 @@
 import jwt from "jsonwebtoken";
 
-
 export const protect = (req, res, next) => {
-  const token = req.cookies.token;
-
-  if (!token) {
-    return res.status(401).json({ message: "Not Authorized", success: false });
-  }
-
-  try {
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (decoded.email !== process.env.ADMIN_EMAIL) {
-      return res.status(403).json({
-        message: "Admin access required",
-        success: false
-      });
-    }
-
-    req.admin = decoded;
-
-    next();
-
-  } catch (error) {
-    return res.status(401).json({ message: "Invalid token" });
-  }
-};
-
-export const adminOnly = (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -39,16 +11,14 @@ export const adminOnly = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (decoded.email !== process.env.ADMIN_EMAIL) {
-      return res.status(403).json({
-        message: "Admin access required",
-        success: false,
-      });
-    }
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    );
 
-    req.admin = decoded;
+    req.user = decoded;
+
     next();
 
   } catch (error) {
@@ -57,4 +27,16 @@ export const adminOnly = (req, res, next) => {
       success: false,
     });
   }
+};
+
+export const adminOnly = (req, res, next) => {
+
+  if (req.user.role !== "admin") {
+    return res.status(403).json({
+      message: "Admin access required",
+      success: false,
+    });
+  }
+
+  next();
 };
