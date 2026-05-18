@@ -23,6 +23,7 @@ import AddCategory from "./Pages/admin/AddCategory";
 import AddMenu from "./Pages/admin/AddMenu";
 import Categories from "./Pages/admin/Categories";
 import Orders from "./Pages/admin/Orders";
+import Menus from "./Pages/admin/Menus";
 import Bookings from "./Pages/admin/Bookings";
 import AdminRoute from "./components/AdminRoute";
 const App = () => {
@@ -61,7 +62,7 @@ const App = () => {
   <Route path="add-category" element={<AddCategory />} />
   <Route path="add-menu" element={<AddMenu />} />
   <Route path="categories" element={<Categories />} />
-  <Route path="menus" element={<Menu />} />
+  <Route path="menus" element={<Menus />} />
   <Route path="orders" element={<Orders />} />
   <Route path="bookings" element={<Bookings />} />
 </Route>

@@ -1,13 +1,13 @@
 import React from 'react'
 import { AppContext } from '../context/AppContext';
 import { useContext, useState } from 'react';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 const Checkout = () => {
   const {totalPrice, axios, navigate} = useContext(AppContext);
-  const [address, setAddress] = useContext("");
-  const [paymentMethod, setPaymentMethod] = useContext("Pay at hotel");
+  const [address, setAddress] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("Pay at hotel");
   const handleCheckout=async()=>{
-    if(address) {
+    if(!address) {
       toast.error("Please enter your delivery address");
       return;
     } try {
@@ -58,7 +58,7 @@ const Checkout = () => {
             </label>
 
             <label htmlFor="" className='flex items-center space-x-3'>
-              <input type="radio" name="Online payment" value="Pay at hotel" checked={paymentMethod === "Online Payment"} onChange={(e) => setPaymentMethod(e.target.value)} className='text-green-600 focus:ring-green-500'/>
+              <input type="radio" name="payment" value="Online Payment" checked={paymentMethod === "Online Payment"} onChange={(e) => setPaymentMethod(e.target.value)} className='text-green-600 focus:ring-green-500'/>
               <span>Online Payment</span>
             </label>
           </div>

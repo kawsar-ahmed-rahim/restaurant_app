@@ -11,16 +11,11 @@ export const protect = (req, res, next) => {
   }
 
   try {
-
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET
-    );
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     req.user = decoded;
 
     next();
-
   } catch (error) {
     return res.status(401).json({
       message: "Invalid token",
@@ -30,6 +25,12 @@ export const protect = (req, res, next) => {
 };
 
 export const adminOnly = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({
+      message: "Not Authorized",
+      success: false,
+    });
+  }
 
   if (req.user.role !== "admin") {
     return res.status(403).json({

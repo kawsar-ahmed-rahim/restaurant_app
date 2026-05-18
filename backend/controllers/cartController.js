@@ -1,5 +1,5 @@
-
 import Cart from "../models/cartModel.js";
+import Menu from "../models/menuModel.js";
 // add to cart
 export const addToCart = async (req, res) => {
   try {
@@ -63,9 +63,7 @@ export const removeFromCart = async (req, res) => {
     const { menuId } = req.params;
     const cart = await Cart.findOne({ user: id });
     if (!cart) {
-      return res
-        .status(400)
-        .json({ message: "Cart not found"});
+      return res.status(400).json({ message: "Cart not found" });
     }
     cart.items = cart.items.filter(
       (item) => item.menuItem._id.toString() !== menuId,

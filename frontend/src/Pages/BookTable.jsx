@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { AppContext } from "../context/AppContext";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 const BookTable = () => {
   const { axios, navigate } = useContext(AppContext);
   const [formData, setFormData] = useState({
@@ -42,7 +42,7 @@ const BookTable = () => {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="You Name"
+            placeholder="Your Name"
             className="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-green-500 focus:outline-none"
             required
           />

@@ -28,32 +28,32 @@ const AdminLayout = () => {
       exact: true,
     },
     {
-      path: "/admin/add-category ",
+      path: "/admin/add-category",
       name: "Add Category",
       icon: Plus,
     },
     {
-      path: "/admin/add-menu ",
+      path: "/admin/add-menu",
       name: "Add Menu",
       icon: Package,
     },
     {
-      path: "/admin/categories ",
+      path: "/admin/categories",
       name: "Categories",
       icon: Grid3x3,
     },
     {
-      path: "/admin/menus ",
+      path: "/admin/menus",
       name: " All Menus",
       icon: Grid3x3,
     },
     {
-      path: "/admin/orders ",
+      path: "/admin/orders",
       name: "Orders",
       icon: ShoppingCart,
     },
     {
-      path: "/admin/bookings ",
+      path: "/admin/bookings",
       name: "Bookings",
       icon: BookIcon,
     },

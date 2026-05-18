@@ -16,8 +16,7 @@ export const addMenuItem = async (req, res) => {
       description,
       price,
       category,
-      image: result,
-      secure_url,
+      image: result.secure_url,
     });
     return res.status(201).json({
       message: "menu item added",

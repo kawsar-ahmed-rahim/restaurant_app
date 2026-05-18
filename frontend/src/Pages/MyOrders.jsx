@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 const MyOrders = () => {
   const { axios } = useContext(AppContext);
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
   const fetchMyOrders = async () => {
     try {
       const { data } = await axios.get("/api/order/my-orders");
@@ -13,6 +14,8 @@ const MyOrders = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -21,7 +24,11 @@ const MyOrders = () => {
   return (
     <div className="max-w-5xl mx-auto mt-10 p-6">
       <h2 className="text-2xl font-semibold mb-6 text-center">My Orders</h2>
-      {orders.length === 0 ? (
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <p className="text-gray-500 text-lg">Loading orders...</p>
+        </div>
+      ) : orders.length === 0 ? (
         <p className="text-center text-gray-600">You have no orders yet.</p>
       ) : (
         <div>

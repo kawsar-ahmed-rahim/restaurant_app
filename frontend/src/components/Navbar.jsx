@@ -9,6 +9,8 @@ import {
   UserCircle,
   Package,
   LogOut,
+  Menu,
+  X,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 const Navbar = () => {
@@ -74,6 +76,18 @@ const Navbar = () => {
 
           {/* right - cart & login/profile */}
           <div className="flex items-center space-x-6">
+            {/* Hamburger Menu - Mobile Only */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              {isMenuOpen ? (
+                <X size={24} className="text-gray-700" />
+              ) : (
+                <Menu size={24} className="text-gray-700" />
+              )}
+            </button>
+
             <button
               onClick={() => navigate("/cart")}
               className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -88,16 +102,15 @@ const Navbar = () => {
                 <div className="relative">
                   <button
                     className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                    onMouseEnter={() => setIsProfileOpen(true)}
-                    onMouseLeave={() => setIsProfileOpen(false)}
+                    onClick={() => setIsProfileOpen(!isProfileOpen)}
                   >
                     <UserCircle size={30} className="text-gray-700" />
                   </button>
                   {isProfileOpen && (
                     <div
+                      className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100"
                       onMouseEnter={() => setIsProfileOpen(true)}
                       onMouseLeave={() => setIsProfileOpen(false)}
-                      className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100"
                     >
                       <Link
                         to={"/my-bookings"}
@@ -161,16 +174,15 @@ const Navbar = () => {
                 <div className="relative">
                   <button
                     className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                    onMouseEnter={() => setIsProfileOpen(true)}
-                    onMouseLeave={() => setIsProfileOpen(false)}
+                    onClick={() => setIsProfileOpen(!isProfileOpen)}
                   >
                     <UserCircle size={30} className="text-gray-700" />
                   </button>
                   {isProfileOpen && (
                     <div
+                      className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100"
                       onMouseEnter={() => setIsProfileOpen(true)}
                       onMouseLeave={() => setIsProfileOpen(false)}
-                      className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100"
                     >
                       <Link
                         to={"/my-bookings"}
@@ -194,7 +206,7 @@ const Navbar = () => {
                         Logout
                       </button>
                     </div>
-                  )}{" "}
+                  )}
                 </div>
               ) : (
                 <button
