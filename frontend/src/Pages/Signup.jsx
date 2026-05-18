@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { User2Icon, LockIcon, MailIcon } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { AppContext } from "../context/AppContext"; 
+import { AppContext } from "../context/AppContext";
 
 const Signup = () => {
   const { axios, navigate, loading, setLoading } = useContext(AppContext);
@@ -19,15 +19,14 @@ const Signup = () => {
       const { data } = await axios.post("/api/auth/register", formData);
       if (data.success) {
         toast.success(data.message);
-        navigate("/login")
+        navigate("/login");
       } else {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.response.data.message || "Something went wrong!");
-    }
-    finally{
-      setLoading(true);
+      toast.error(error?.response?.data?.message || "Something went wrong!");
+    } finally {
+      setLoading(false);
     }
   };
 

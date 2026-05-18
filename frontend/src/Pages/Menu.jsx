@@ -12,7 +12,7 @@ const Menu = () => {
       setFilteredMenus(menus);
     } else {
       const filtered = menus.filter((menu) =>
-        menu.name.toLowerCase().includes(searchQuery.toLowerCase()),
+        (menu?.name || "").toLowerCase().includes(searchQuery.toLowerCase()),
       );
       setFilteredMenus(filtered);
     }

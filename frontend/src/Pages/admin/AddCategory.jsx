@@ -1,10 +1,10 @@
-
 import { useContext, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import { Upload } from "lucide-react";
 import { toast } from "react-hot-toast";
 const AddCategory = () => {
-  const { axios, navigate, loading, setLoading, fetchCategories } = useContext(AppContext);
+  const { axios, navigate, loading, setLoading, fetchCategories } =
+    useContext(AppContext);
   const [formData, setFormData] = useState({ name: "", image: null });
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -32,14 +32,15 @@ const AddCategory = () => {
       });
       if (data.success) {
         toast.success(data.message);
-if (fetchCategories) {
-  await fetchCategories();
-}        navigate("/admin/categories");
+        if (fetchCategories) {
+          await fetchCategories();
+        }
+        navigate("/admin/categories");
       } else {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.response.data.message || "Something went wrong");
+      toast.error(error?.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

@@ -1,26 +1,25 @@
 import React from "react";
-import {useContext} from "react"
+import { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 import { CircleX } from "lucide-react";
 import toast from "react-hot-toast";
 
 const Menus = () => {
-  const { axios, menus, fetchMenus} = useContext(AppContext);
+  const { axios, menus, fetchMenus } = useContext(AppContext);
 
-  const deleteMenu=async(id)=>{
+  const deleteMenu = async (id) => {
     try {
-      const {data} = await axios.delete(`/api/menu/delete/${id}`);
-      if(data.success) {
+      const { data } = await axios.delete(`/api/menu/delete/${id}`);
+      if (data.success) {
         toast.success(data.message);
-        fetchMenus()
+        fetchMenus();
       } else {
-        toast.error(data.message)
-
+        toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
-  }
+  };
   return (
     <div className="py-4">
       <h1 className="text-3xl font-bold mb-3">All Menus</h1>
@@ -34,23 +33,27 @@ const Menus = () => {
         </div>
         <hr className="w-full my-4 text-gray-200" />
         <ul>
-          {menus.map((item) => (
-            <div key={item._id}>
+          {menus?.map((item) => (
+            <div key={item?._id}>
               <div className="grid grid-cols-5 items-center mb-4">
                 <div className="flex items-center gap-2 max-w-md">
-                  <img src={item.image} alt="image" className="w-20 h-20" />
+                  <img
+                    src={item?.image || "https://via.placeholder.com/100"}
+                    alt={item?.name || "image"}
+                    className="w-20 h-20 object-cover"
+                  />
                 </div>
-                <p>{item?.name}</p>
-                 <p>{item?.category.name}</p>
-                  <p>$ {item?.price}</p>
+                <p>{item?.name || "N/A"}</p>
+                <p>{item?.category?.name || "N/A"}</p>
+                <p>$ {item?.price || "0"}</p>
                 <p
                   className="text-red-600 cursor-pointer hover:underline"
-                  onClick={()=>deleteMenu(item._id)}
+                  onClick={() => deleteMenu(item?._id)}
                 >
                   <CircleX />
                 </p>
               </div>
-              <hr className="w-full text-gray-300"/>
+              <hr className="w-full text-gray-300" />
             </div>
           ))}
         </ul>

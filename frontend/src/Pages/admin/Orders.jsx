@@ -74,9 +74,9 @@ const Orders = () => {
                   <div className="flex justify-center md:justify-start items-center gap-2 md:gap-5 mt-2 md:mt-0">
                     <select
                       name="status"
-                      value={item.status}
+                      value={item?.status || "Pending"}
                       onChange={(e) =>
-                        handleStatusChange(item._id, e.target.value)
+                        handleStatusChange(item?._id, e.target.value)
                       }
                       disabled={loading}
                       className="border rounded-md px-3 py-2"
@@ -91,23 +91,28 @@ const Orders = () => {
 
                 {/* Render Menu Item */}
                 <div className="mt-3">
-                  {item.items.map((menu, index) => (
+                  {item?.items?.map((menu, index) => (
                     <div
                       key={index}
                       className="flex items-center gap-3 bg-gray-50 border rounded-lg p-2 my-2"
                     >
                       <img
-                        src={menu?.menuItem?.image}
-                        alt="img"
+                        src={
+                          menu?.menuItem?.image ||
+                          "https://via.placeholder.com/100"
+                        }
+                        alt={menu?.menuItem?.name || "Menu item"}
                         className="w-16 h-16 rounded object-cover"
                       />
                       <div>
-                        <p className="font-semibold">{menu?.menuItem?.name}</p>
-                        <p className="text-sm text-gray-600">
-                          QTY:{menu?.quantity}
+                        <p className="font-semibold">
+                          {menu?.menuItem?.name || "N/A"}
                         </p>
                         <p className="text-sm text-gray-600">
-                          $:{menu?.menuItem?.price}
+                          QTY:{menu?.quantity || "0"}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          ${menu?.menuItem?.price || "0"}
                         </p>
                       </div>
                     </div>

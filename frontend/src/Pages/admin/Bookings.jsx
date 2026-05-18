@@ -20,14 +20,17 @@ const Bookings = () => {
   const handleStatusChange = async (bookingId, newStatus) => {
     try {
       setLoading(true);
-      const { data } = await axios.put(`/api/booking/update-status/${bookingId}`, {
-        status: newStatus,
-      });
+      const { data } = await axios.put(
+        `/api/booking/update-status/${bookingId}`,
+        {
+          status: newStatus,
+        },
+      );
       if (data.success) {
         toast.success(data.message);
         fetchBookings();
       } else {
-        toast.error(data.success);
+        toast.error(data.message);
       }
     } catch (error) {
       console.log(error);
@@ -38,14 +41,14 @@ const Bookings = () => {
 
   useEffect(() => {
     if (admin) {
-      fetchOrders();
+      fetchBookings();
     }
   }, []);
   return (
     <div>
       <div className="py-24 px-3 sm:px-6">
         <h1 className="text-3xl font-bold text-center my-3">All Bookings</h1>
-        <div className="border border-gray-400 max-auto p-3 rounded-lg">
+        <div className="border border-gray-400 p-3 rounded-lg">
           {/* Header */}
           <div className="hidden md:grid grid-cols-6 font-semibold text-gray-700 mt-3">
             <div>Name</div>
@@ -67,24 +70,22 @@ const Bookings = () => {
                     {item?.phone}
                   </p>
                   <p className="text-gray-600 hidden md:block">
-                    $ {item?.numberOfPeople}
+                    {item?.numberOfPeople}
                   </p>
                   <p className="text-gray-600 hidden md:block">
-                    {new Date(item?.date).toLocaleDateString("en-US",{
+                    {new Date(item?.date).toLocaleDateString("en-US", {
                       day: "2-digit",
                       month: "short",
                       year: "numeric",
                     })}
                   </p>
-                  <p className="text-gray-600 hidden md:block">
-                    $ {item?.time}
-                  </p>
+                  <p className="text-gray-600 hidden md:block">{item?.time}</p>
                   <div className="flex justify-center md:justify-start items-center gap-2 md:gap-5 mt-2 md:mt-0">
                     <select
                       name="status"
-                      value={item.status}
+                      value={item?.status || "Pending"}
                       onChange={(e) =>
-                        handleStatusChange(item._id, e.target.value)
+                        handleStatusChange(item?._id, e.target.value)
                       }
                       disabled={loading}
                       className="border rounded-md px-3 py-2"
@@ -96,8 +97,6 @@ const Bookings = () => {
                     </select>
                   </div>
                 </div>
-
-                
               </li>
             ))}
           </ul>

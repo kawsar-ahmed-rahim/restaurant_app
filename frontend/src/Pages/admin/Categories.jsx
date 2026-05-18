@@ -36,21 +36,21 @@ const Categories = () => {
 
         <ul>
           {categories?.map((item) => (
-            <li key={item._id}>
+            <li key={item?._id}>
               <div className="grid grid-cols-3 items-center mb-4">
                 <div className="flex items-center gap-2 max-w-md">
                   <img
-                    src={item.image}
-                    alt="category"
+                    src={item?.image || "https://via.placeholder.com/100"}
+                    alt={item?.name || "category"}
                     className="w-20 h-20 object-cover"
                   />
                 </div>
 
-                <p>{item.name}</p>
+                <p>{item?.name || "N/A"}</p>
 
                 <button
                   className="text-red-600 cursor-pointer hover:scale-110 transition"
-                  onClick={() => deleteCategory(item._id)}
+                  onClick={() => deleteCategory(item?._id)}
                 >
                   <CircleX />
                 </button>

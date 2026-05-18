@@ -49,35 +49,35 @@ const Cart = () => {
           </thead>
 
           <tbody>
-            {cart.items.map((item) => (
-              <tr key={item._id} className="border-t hover:bg-gray-50">
+            {cart?.items?.map((item) => (
+              <tr key={item?._id} className="border-t hover:bg-gray-50">
                 <td className="py-3 px-4 flex items-center space-x-3">
                   <img
-                    src={item.menuItem.image}
-                    alt={item.menuItem.name}
+                    src={item?.menuItem?.image || "https://via.placeholder.com/100"}
+                    alt={item?.menuItem?.name || "Menu item"}
                     className="w-12 h-12 object-cover rounded"
                   />
                   <span className="font-medium text-gray-800">
-                    {item.menuItem.name}
+                    {item?.menuItem?.name || "N/A"}
                   </span>
                 </td>
 
                 <td className="py-3 px-4 text-center">
-                  {item.quantity}
+                  {item?.quantity || "0"}
                 </td>
 
                 <td className="py-3 px-4 text-center">
-                  ${item.menuItem.price}
+                  ${item?.menuItem?.price || "0"}
                 </td>
 
                 <td className="py-3 px-4 text-center font-semibold">
-                  ${item.menuItem.price * item.quantity}
+                  ${(item?.menuItem?.price || 0) * (item?.quantity || 0)}
                 </td>
 
                 <td className="py-3 px-4 text-center">
                   <button
                     onClick={() =>
-                      removeFromCart(item.menuItem._id)
+                      removeFromCart(item?.menuItem?._id)
                     }
                     className="text-red-500 hover:text-red-700"
                   >
