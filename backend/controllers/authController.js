@@ -9,7 +9,7 @@ const generateToken = (res, payload) => {
     httpOnly: true,
     // secure: process.env.NODE_ENV === "production",
     secure: false,
-    sameSite: "lax",
+    sameSite: "none",
     maxAge: 24 * 60 * 60 * 1000,
   });
   return token;
@@ -96,7 +96,7 @@ export const adminLogin = async (req, res) => {
       httpOnly: true,
       // secure: process.env.NODE_ENV === "production",
       secure: false,
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
     });
     res.json({
