@@ -28,10 +28,7 @@ const MenuDetails = () => {
       toast.error("This item is not available");
       return;
     }
-    for (let i = 0; i < quantity; i++) {
-      addToCart(menu._id);
-    }
-    toast.success(`Added ${quantity} item(s) to cart`);
+    addToCart(menu._id, quantity);
   };
 
   if (loading) {
@@ -113,7 +110,7 @@ const MenuDetails = () => {
                     Category
                   </p>
                   <p className="text-lg text-gray-800">
-                    {menu?.category || "N/A"}
+                    {menu?.category?.name || "N/A"}
                   </p>
                 </div>
 

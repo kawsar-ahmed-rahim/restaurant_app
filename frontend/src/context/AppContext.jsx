@@ -49,11 +49,11 @@ const AppContextProvider = ({ children }) => {
   );
 
   // add to cart
-  const addToCart = async (menuId) => {
+  const addToCart = async (menuId, quantity = 1) => {
     try {
       const { data } = await axios.post("/api/cart/add", {
         menuId,
-        quantity: 1,
+        quantity,
       });
 
       if (data.success) {
