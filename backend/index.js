@@ -22,14 +22,16 @@ connectDB().catch((err) => {
 });
 connectCloudinary();
 
+// CORS configuration
+const corsOptions = {
+  origin:
+    process.env.FRONTEND_URL || "https://restaurant-app-eta-self.vercel.app",
+  credentials: true,
+};
+
 // middlewares
 app.use(express.json());
-app.use(
-  cors({
-    origin: "https://restaurant-app-eta-self.vercel.app/",
-    credentials: true,
-  }),
-);
+app.use(cors(corsOptions));
 
 // IMPORTANT: must be before routes that read req.cookies
 app.use(cookieParser());
