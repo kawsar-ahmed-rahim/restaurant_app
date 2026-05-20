@@ -25,7 +25,7 @@ connectCloudinary();
 // CORS configuration
 const corsOptions = {
   origin:
-    process.env.FRONTEND_URL || "https://restaurant-app-eta-self.vercel.app",
+    process.env.FRONTEND_URL || "https://restaurantappfrontend-psi.vercel.app/",
   credentials: true,
 };
 
