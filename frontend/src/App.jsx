@@ -1,5 +1,4 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import React from "react";
 import Home from "./Pages/Home";
 import Menu from "./Pages/Menu";
 import Contact from "./Pages/Contact";
@@ -48,24 +47,26 @@ const App = () => {
         <Route path="/my-orders" element={<MyOrders />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+
 
         {/* admin routes */}
         <Route
-  path="/admin"
-  element={
-    <AdminRoute>
-      <AdminLayout />
-    </AdminRoute>
-  }
->
-  <Route index element={<Dashboard />} />
-  <Route path="add-category" element={<AddCategory />} />
-  <Route path="add-menu" element={<AddMenu />} />
-  <Route path="categories" element={<Categories />} />
-  <Route path="menus" element={<Menus />} />
-  <Route path="orders" element={<Orders />} />
-  <Route path="bookings" element={<Bookings />} />
-</Route>
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="add-category" element={<AddCategory />} />
+          <Route path="add-menu" element={<AddMenu />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="menus" element={<Menus />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="bookings" element={<Bookings />} />
+        </Route>
       </Routes>
       {!adminPath && <Footer />}
     </div>
